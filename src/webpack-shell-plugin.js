@@ -76,7 +76,9 @@ export default class WebpackShellPlugin {
         console.warn(`WebpackShellPlugin [${new Date()}]: Verbose is being deprecated, please remove.`);
       }
       if (this.options.onBuildStart.length) {
-        console.log('Executing pre-build scripts');
+        if (this.options.verbose) {
+          console.log('Executing pre-build scripts');
+        }
         for (let ii = 0; ii < this.options.onBuildStart.length; ii += 1) {
           this.handleScript(this.options.onBuildStart[ii]);
         }
@@ -88,7 +90,9 @@ export default class WebpackShellPlugin {
 
     compiler.hooks.afterEmit.tapAsync('WebpackShellPlugin', (compilation, callback) => {
       if (this.options.onBuildEnd.length) {
-        console.log('Executing post-build scripts');
+        if (this.options.verbose) {
+          console.log('Executing post-build scripts');
+        }
         for (let ii = 0; ii < this.options.onBuildEnd.length; ii += 1) {
           this.handleScript(this.options.onBuildEnd[ii]);
         }
@@ -101,7 +105,9 @@ export default class WebpackShellPlugin {
 
     compiler.hooks.done.tap('WebpackShellPlugin', () => {
       if (this.options.onBuildExit.length) {
-        console.log('Executing additional scripts before exit');
+        if (this.options.verbose) {
+          console.log('Executing additional scripts before exit');
+        }
         for (let ii = 0; ii < this.options.onBuildExit.length; ii += 1) {
           this.handleScript(this.options.onBuildExit[ii]);
         }
